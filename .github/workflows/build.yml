@@ -40,7 +40,7 @@ jobs:
     - name: Setup Google Cloud SDK
       uses: google-github-actions/setup-gcloud@v1.1.0
       with:
-        project_id: ${{ PROJECT_ID }}
+        project_id: ${{ env.PROJECT_ID }}
         service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
         export_default_credentials: true
 
@@ -49,13 +49,13 @@ jobs:
       with:
         context: .
         push: true
-        tags: eu.gcr.io/${{ PROJECT_ID }}/phexpedition-app:${{ github.sha-short }}
+        tags: eu.gcr.io/${{ env.PROJECT_ID }}/phexpedition-app:${{ github.sha-short }}
 
     - name: Deploy to Cloud Run
       run: |
         gcloud run deploy phexpedition-app \
-          --image gcr.io/${{ PROJECT_ID }}/phexpedition-app:latest \
+          --image gcr.io/${{ env.PROJECT_ID }}/phexpedition-app:latest \
           --region europe-west1 \
           --platform managed \
-          --project ${{ PROJECT_ID }} \
+          --project ${{ env.PROJECT_ID }} \
           --allow-unauthenticated
