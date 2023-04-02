@@ -33,3 +33,30 @@ jobs:
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #    - name: Update dependency graph
 #      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+
+    - name: Configure Docker
+      uses: docker/setup-buildx-action@v1
+
+    - name: Setup Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0.3.0
+      with:
+        project_id: ${{ secrets.PROJECT_ID }}
+        service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+        export_default_credentials: true
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: eu.gcr.io/${{ secrets.PROJECT_ID }}/phexpedition-app:latest
+        builder: my-builder
+
+    - name: Deploy to Cloud Run
+      run: |
+        gcloud run deploy phexpedition-app \
+          --image gcr.io/${{ secrets.PROJECT_ID }}/phexpedition-app:latest \
+          --region europe-west1 \
+          --platform managed \
+          --project ${{ secrets.PROJECT_ID }} \
+          --allow-unauthenticated
