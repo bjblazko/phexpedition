@@ -16,8 +16,10 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <main.class>phexpedition.net.ApplicationKt</main.class>
     </properties>
+
     <repositories>
     </repositories>
+
     <dependencies>
         <dependency>
             <groupId>io.ktor</groupId>
@@ -108,7 +110,9 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
+        <finalName>phexpedition-app</finalName>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <resources>
@@ -218,4 +222,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
