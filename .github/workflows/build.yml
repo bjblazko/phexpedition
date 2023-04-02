@@ -50,7 +50,6 @@ jobs:
         context: .
         push: true
         tags: eu.gcr.io/${{ secrets.PROJECT_ID }}/phexpedition-app:latest
-        builder: my-builder
 
     - name: Deploy to Cloud Run
       run: |
