@@ -20,7 +20,7 @@ fun main() {
 fun Application.module() {
     configureLogging()
     //configureHTTP()
-    configureMonitoring()
+    //configureMonitoring()
     configureSecurity()
     configureTemplating()
     configureSerialization()
