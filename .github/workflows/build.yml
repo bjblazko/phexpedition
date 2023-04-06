@@ -70,7 +70,7 @@ jobs:
     - name: Deploy to Cloud Run
       run: |
         gcloud run deploy phexpedition-app \
-          --image gcr.io/${{ vars.PROJECT_ID }}/phexpedition-app:latest \
+          --image eu.gcr.io/${{ vars.PROJECT_ID }}/phexpedition-app:latest \
           --region europe-west1 \
           --platform managed \
           --project ${{ vars.PROJECT_ID }} \
