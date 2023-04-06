@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: production
+      name: Beta
       url: https://beta.phexpedition.com
 
     steps:
