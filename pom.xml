@@ -14,7 +14,7 @@
         <logback_version>1.2.11</logback_version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
-        <main.class>phexpedition.net.ApplicationKt</main.class>
+        <main.class>net.phexpedition.ApplicationKt</main.class>
     </properties>
 
     <repositories>
