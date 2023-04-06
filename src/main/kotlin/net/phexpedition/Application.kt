@@ -11,7 +11,7 @@ fun main() {
     embeddedServer(
         factory = Netty,
         port = webConfigurationHttpPort.getOrThrow().value,
-        host = "localhost",
+        host = "0.0.0.0",
         module = Application::module
     )
         .start(wait = true)
