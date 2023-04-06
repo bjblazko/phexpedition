@@ -7,6 +7,7 @@ import net.phexpedition.plugins.*
 
 fun main() {
     checkConfiguration()
+    printConfiguration()
     embeddedServer(
         factory = Netty,
         port = webConfigurationHttpPort.getOrThrow().value,
@@ -17,6 +18,7 @@ fun main() {
 }
 
 fun Application.module() {
+    configureLogging()
     //configureHTTP()
     configureMonitoring()
     configureSecurity()

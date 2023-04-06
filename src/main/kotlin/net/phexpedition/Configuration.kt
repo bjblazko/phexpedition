@@ -1,12 +1,18 @@
 package net.phexpedition
 
 import java.util.Optional
+import io.ktor.server.application.*
+
 
 data class ConfigurationValue<T>(
     val value: T,
     val key: String,
     val fromDefault: Boolean
-)
+) {
+    override fun toString(): String {
+        return "$key=$value"
+    }
+}
 
 val webConfigurationHttpPort = getIntConfigurationFromEnvironment("WEB_HTTP_PORT", Optional.of(8080))
 
@@ -59,13 +65,32 @@ fun getBooleanConfigurationFromEnvironment(
 
 
 fun checkConfiguration() {
-    webConfigurationHttpPort.getOrThrow()
-    authenticationConfigurationAuthority.getOrThrow()
-    authenticationRedirectUri.getOrThrow()
-    authenticationClientId.getOrThrow()
-    authenticationJwkProviderUri.getOrThrow()
-    authenticationRealm.getOrThrow()
-    authenticationIssuer.getOrThrow()
+    val exceptions = mutableListOf<Throwable>()
+    webConfigurationHttpPort.onFailure { ex -> exceptions.add(ex) }
+    authenticationConfigurationAuthority.onFailure { ex -> exceptions.add(ex) }
+    authenticationRedirectUri.onFailure { ex -> exceptions.add(ex) }
+    authenticationClientId.onFailure { ex -> exceptions.add(ex) }
+    authenticationJwkProviderUri.onFailure { ex -> exceptions.add(ex) }
+    authenticationRealm.onFailure { ex -> exceptions.add(ex) }
+    authenticationIssuer.onFailure { ex -> exceptions.add(ex) }
+
+    if (exceptions.isNotEmpty()) {
+        var message = "Failed to start due to missing mandatory ENV variables: "
+        for (ex in exceptions) {
+            message += "${ex.message}, "
+        }
+        throw IllegalArgumentException(message)
+    }
+}
+
+fun printConfiguration() {
+    println(webConfigurationHttpPort.getOrThrow())
+    println(authenticationConfigurationAuthority.getOrThrow())
+    println(authenticationRedirectUri.getOrThrow())
+    println(authenticationClientId.getOrThrow())
+    println(authenticationJwkProviderUri.getOrThrow())
+    println(authenticationRealm.getOrThrow())
+    println(authenticationIssuer.getOrThrow())
 }
 
 private inline fun <reified T> getConfigurationFromEnvironment(
