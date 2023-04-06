@@ -20,6 +20,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    environment:
+      name: production
+      url: https://beta.phexpedition.com
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 11
