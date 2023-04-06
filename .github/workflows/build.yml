@@ -53,17 +53,7 @@ jobs:
 #        project_id: ${{ vars.PROJECT_ID }}
 #        service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
 #        export_default_credentials: true
-    - name: Add run.services.create and run.services.update
-      run: |
-        gcloud projects add-iam-policy-binding "${{ vars.PROJECT_ID }}" \
-          --member="serviceAccount:${{ secrets.SERVICE_ACCOUNT_EMAIL }}" \
-          --role="roles/run.admin"
-    - name: Add iam.serviceAccounts.actAs
-      run: |
-        gcloud projects add-iam-policy-binding "${{ vars.PROJECT_ID }}" \
-          --member="serviceAccount:${{ secrets.SERVICE_ACCOUNT_EMAIL }}" \
-          --role="roles/iam.serviceAccountUser"
-        
+
         
 
     - name: Login to GCR
