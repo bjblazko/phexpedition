@@ -28,4 +28,4 @@ jobs:
     - name: Run tests with Maven
       run: mvn -B test --file pom.xml
     - name: Run code analysis through Sonarqube with Maven
-      run: mvn -B verify sonar:sonar --file pom.xml -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      run: mvn -B verify sonar:sonar --file pom.xml -Pcoverage -Dsonar.login=${{ secrets.SONAR_TOKEN }}
