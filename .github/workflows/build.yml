@@ -19,6 +19,11 @@ jobs:
 
   sonarcloud:
     runs-on: ubuntu-latest
+
+    environment:
+      name: Beta
+      url: https://beta.phexpedition.com
+
     steps:
       - uses: actions/checkout@v2
         with:
