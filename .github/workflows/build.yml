@@ -1,12 +1,4 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Java CI with Maven
+name: Java QA with Maven
 
 on:
   push:
@@ -21,13 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: Beta
-      url: https://beta.phexpedition.com
+      name: Test
+      url: https://test.phexpedition.com
 
     steps:
       - uses: actions/checkout@v2
         with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
@@ -40,8 +31,8 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: Beta
-      url: https://beta.phexpedition.com
+      name: Test
+      url: https://test.phexpedition.net
 
     steps:
     - uses: actions/checkout@v3
@@ -51,48 +42,5 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
-
-    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
-#    - name: Update dependency graph
-#      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
-
-    - name: Configure Docker
-      uses: docker/setup-buildx-action@v1
-
-    - id: 'auth'
-      uses: 'google-github-actions/auth@v1'
-      with:
-        credentials_json: '${{ secrets.SERVICE_ACCOUNT_KEY }}'
-
-    - name: Setup Google Cloud SDK
-      uses: google-github-actions/setup-gcloud@v1
-#      with:
-#        project_id: ${{ vars.PROJECT_ID }}
-#        service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
-#        export_default_credentials: true
-
-        
-
-    - name: Login to GCR
-      uses: docker/login-action@v2
-      with:
-        registry: eu.gcr.io
-        username: _json_key
-        password: ${{ secrets.SERVICE_ACCOUNT_KEY }}
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v4
-      with:
-        context: .
-        push: true
-        tags: eu.gcr.io/${{ vars.PROJECT_ID }}/phexpedition-app:${{ github.sha }}
-
-    - name: Deploy to Cloud Run
-      run: |
-        gcloud run deploy phexpedition-app \
-          --image eu.gcr.io/${{ vars.PROJECT_ID }}/phexpedition-app:${{ github.sha }} \
-          --region europe-west1 \
-          --platform managed \
-          --project ${{ vars.PROJECT_ID }} \
-          --allow-unauthenticated
+    - name: Run tests with Maven
+      run: mvn -B test --file pom.xml
