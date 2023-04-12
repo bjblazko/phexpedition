@@ -91,12 +91,12 @@ jobs:
         with:
           credentials: ${{ secrets.GOOGLE_KEY }}
       - name: Build with GCP Buildpacks
-        run: gcloud builds submit --pack=image=eu.gcr.io/$GOOGLE_PROJECT/phexpedition-app
+        run: gcloud builds submit --pack=image=eu.gcr.io/${{ secrets.GOOGLE_PROJECT}}/phexpedition-app
       - name: Deploy to Google Cloud Run
         uses: GoogleCloudPlatform/github-actions/deploy-cloudrun@main
         with:
           service_name: phexpedition-app
-          image_uri: eu.gcr.io/$GOOGLE_PROJECT/phexpedition-app
+          image_uri: eu.gcr.io/${{ secrets.GOOGLE_PROJECT}}/phexpedition-app
           project_id: ${{ secrets.$GOOGLE_PROJECT }}
 
 
