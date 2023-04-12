@@ -97,7 +97,7 @@ jobs:
         with:
           service_name: phexpedition-app
           image_uri: eu.gcr.io/${{ secrets.GOOGLE_PROJECT}}/phexpedition-app
-          project_id: ${{ secrets.$GOOGLE_PROJECT }}
+          project_id: ${{ secrets.GOOGLE_PROJECT }}
 
 
   deploy-beta:
