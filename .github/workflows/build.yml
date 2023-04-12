@@ -16,7 +16,6 @@ jobs:
 
     environment:
       name: Test
-      url: https://test.phexpedition.net
 
     steps:
       - uses: actions/checkout@v3
@@ -36,7 +35,6 @@ jobs:
 
     environment:
       name: Test
-      url: https://test.phexpedition.net
 
     needs: maven-validate
 
@@ -59,7 +57,6 @@ jobs:
 
     environment:
       name: Test
-      url: https://test.phexpedition.net
 
     needs: maven-validate
 
@@ -85,6 +82,22 @@ jobs:
       url: https://test.phexpedition.net
 
     needs: [maven-test, maven-sonarqube]
+
+    steps:
+      - name: Print a variable
+        run: echo "The value of my_variable is ${{ github.workspace }}"
+
+
+  deploy-beta:
+
+    name: Google Cloud - deploy to test
+    runs-on: ubuntu-latest
+
+    environment:
+      name: Beta
+      url: https://beta.phexpedition.net
+
+    needs: [maven-test, maven-sonarqube, deploy-test]
 
     steps:
       - name: Print a variable
