@@ -90,14 +90,30 @@ jobs:
 
   deploy-beta:
 
-    name: Google Cloud - deploy to test
+    name: Google Cloud - deploy to beta
     runs-on: ubuntu-latest
 
     environment:
       name: Beta
       url: https://beta.phexpedition.net
 
-    needs: [maven-test, maven-sonarqube, deploy-test]
+    needs: [deploy-test]
+
+    steps:
+      - name: Print a variable
+        run: echo "The value of my_variable is ${{ github.workspace }}"
+
+
+  deploy-prod:
+
+    name: Google Cloud - deploy to production
+    runs-on: ubuntu-latest
+
+    environment:
+      name: Prod
+      url: https://phexpedition.net
+
+    needs: [deploy-test]
 
     steps:
       - name: Print a variable
