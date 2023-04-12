@@ -84,8 +84,20 @@ jobs:
     needs: [maven-test, maven-sonarqube]
 
     steps:
-      - name: Print a variable
-        run: echo "The value of my_variable is ${{ github.workspace }}"
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials: ${{ secrets.GOOGLE_KEY }}
+      - name: Build with GCP Buildpacks
+        run: gcloud builds submit --pack=image=eu.gcr.io/$GOOGLE_PROJECT/phexpedition-app
+      - name: Deploy to Google Cloud Run
+        uses: GoogleCloudPlatform/github-actions/deploy-cloudrun@main
+        with:
+          service_name: phexpedition-app
+          image_uri: eu.gcr.io/$GOOGLE_PROJECT/phexpedition-app
+          project_id: ${{ secrets.$GOOGLE_PROJECT }}
 
 
   deploy-beta:
