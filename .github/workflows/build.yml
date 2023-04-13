@@ -91,19 +91,14 @@ jobs:
         with:
           project_id: ${{ secrets.GOOGLE_PROJECT }}
           service_account_key: ${{ secrets.GOOGLE_KEY }}
-      - name: Build container image
-        uses: GoogleCloudPlatform/buildpacks@v1
-        with:
-          builder: eu.gcr.io/buildpacks/builder:v1
-          image: eu.gcr.io/${{ secrets.GOOGLE_PROJECT }}/phexpedition-app
-          env: |
-            BP_MAVEN_BUILT_ARTIFACT=target/phexpedition-app-jar-with-dependencies.jar
       - name: Deploy to Cloud Run
-        uses: google-github-actions/deploy-cloudrun@v1
-        with:
-          image: eu.gcr.io/${{ secrets.GOOGLE_PROJECT }}/phexpedition-app
-          service: my-cloud-run-service
-          platform: managed
+        run: |
+          gcloud run deploy phexpedition-app \
+            --source . \
+            --region europe-west1
+            --allow-unauthenticated
+            --set-env-vars: AUTH_REDIRECT_URI=https://test.phexpedition.net
+            --set-secrets AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest
 
 
 
