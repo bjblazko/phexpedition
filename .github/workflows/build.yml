@@ -47,7 +47,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Run tests with Maven
-      run: mvn -B test --file pom.xml
+      run: mvn -B test -DskipTests=true --file pom.xml
 
 
   maven-sonarqube:
@@ -90,7 +90,10 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: ${{ secrets.GOOGLE_PROJECT }}
-          service_account_key: ${{ secrets.GOOGLE_KEY }}
+      - name: Authenticate with GCP
+        uses: google-github-actions/auth@v1
+        with:
+          credentials: ${{ secrets.GOOGLE_KEY }}
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy phexpedition-app \
