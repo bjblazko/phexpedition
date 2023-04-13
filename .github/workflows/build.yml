@@ -87,7 +87,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Set up GCP project and credentials
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: ${{ secrets.GOOGLE_PROJECT }}
           service_account_key: ${{ secrets.GOOGLE_KEY }}
