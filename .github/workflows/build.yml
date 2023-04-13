@@ -99,7 +99,7 @@ jobs:
           env: |
             BP_MAVEN_BUILT_ARTIFACT=target/phexpedition-app-jar-with-dependencies.jar
       - name: Deploy to Cloud Run
-        uses: GoogleCloudPlatform/cloud-run-deploy@v1
+        uses: google-github-actions/deploy-cloudrun@v1
         with:
           image: eu.gcr.io/${{ secrets.GOOGLE_PROJECT }}/phexpedition-app
           service: my-cloud-run-service
