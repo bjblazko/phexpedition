@@ -86,19 +86,25 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v1
+      - name: Set up GCP project and credentials
+        uses: google-github-actions/setup-gcloud@master
         with:
-          credentials: ${{ secrets.GOOGLE_KEY }}
-      - name: Build with GCP Buildpacks
-        #run: gcloud builds submit --pack=image=eu.gcr.io/${{ secrets.GOOGLE_PROJECT}}/phexpedition-app
-        run: gcloud builds submit --pack=builder=eu.gcr.io/buildpacks/builder:v1 -q --tag=eu.gcr.io/${{ secrets.GOOGLE_PROJECT}}/phexpedition-app
-      - name: Deploy to Google Cloud Run
-        uses: GoogleCloudPlatform/github-actions/deploy-cloudrun@main
-        with:
-          service_name: phexpedition-app
-          image_uri: eu.gcr.io/${{ secrets.GOOGLE_PROJECT}}/phexpedition-app
           project_id: ${{ secrets.GOOGLE_PROJECT }}
+          service_account_key: ${{ secrets.GOOGLE_KEY }}
+      - name: Build container image
+        uses: GoogleCloudPlatform/buildpacks@v1
+        with:
+          builder: eu.gcr.io/buildpacks/builder:v1
+          image: eu.gcr.io/${{ secrets.GOOGLE_PROJECT }}/phexpedition-app
+          env: |
+            BP_MAVEN_BUILT_ARTIFACT=target/phexpedition-app-jar-with-dependencies.jar
+      - name: Deploy to Cloud Run
+        uses: GoogleCloudPlatform/cloud-run-deploy@v1
+        with:
+          image: eu.gcr.io/${{ secrets.GOOGLE_PROJECT }}/phexpedition-app
+          service: my-cloud-run-service
+          platform: managed
+
 
 
   deploy-beta:
