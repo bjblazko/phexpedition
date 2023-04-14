@@ -98,9 +98,9 @@ jobs:
         run: |
           gcloud run deploy phexpedition-app \
             --source . \
-            --region europe-west1
-            --allow-unauthenticated
-            --set-env-vars: AUTH_REDIRECT_URI=https://test.phexpedition.net
+            --region europe-west1 \
+            --allow-unauthenticated \
+            --set-env-vars: AUTH_REDIRECT_URI=https://test.phexpedition.net \
             --set-secrets AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest
 
 
