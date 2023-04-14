@@ -80,7 +80,7 @@ jobs:
       name: Test
       url: https://test.phexpedition.net
 
-    call-workflow-2-in-local-repo:
+    deploy-cloud-run:
       uses: ./.github/workflows/google-cloud-deploy.yml
       with:
         service_name: phexpedition-app
