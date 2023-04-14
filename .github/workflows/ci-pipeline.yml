@@ -72,18 +72,10 @@ jobs:
         run: mvn -B verify sonar:sonar --file pom.xml -Pcoverage -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
 
-  deploy-test:
-
-    needs: [maven-test, maven-sonarqube]
-
-    environment:
-      name: Test
-      url: https://test.phexpedition.net
-
-    deploy-cloud-run:
-      uses: ./.github/workflows/google-cloud-deploy.yml
-      with:
-        service_name: phexpedition-app
+  deploy-cloud-run:
+    uses: ./.github/workflows/google-cloud-deploy.yml
+    with:
+      service_name: phexpedition-app
 
 #  deploy-test:
 #
