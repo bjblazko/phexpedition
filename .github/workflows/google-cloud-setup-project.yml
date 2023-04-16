@@ -1,5 +1,8 @@
 name: Initialize Google Cloud Project
 
+on:
+  workflow_dispatch:
+
 jobs:
 
   setup-test:
