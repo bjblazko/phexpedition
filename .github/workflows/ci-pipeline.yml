@@ -1,4 +1,4 @@
-name: Java QA with Maven
+name: Build, test and deploy
 
 on:
   push:

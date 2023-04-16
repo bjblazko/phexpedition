@@ -1,0 +1,27 @@
+name: Initialize Google Cloud Project
+
+on:
+
+jobs:
+
+  setup-test:
+
+    name: Google Cloud - setup
+    runs-on: ubuntu-latest
+
+    environment:
+      name: Beta
+      url: ${{ vars.SERVICE_URL }}
+
+    steps:
+      - name: Install gcloud CLI
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GOOGLE_PROJECT }}
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GOOGLE_KEY }}
+      - name: Setup Cloud Run service account
+        run: |
+          gcloud iam service-accounts create appuser --display-name="App Service Account"
