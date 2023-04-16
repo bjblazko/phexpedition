@@ -1,7 +1,5 @@
 name: Initialize Google Cloud Project
 
-on:
-
 jobs:
 
   setup-test:
