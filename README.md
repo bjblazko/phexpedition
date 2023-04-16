@@ -49,6 +49,12 @@ make sure to create a new project per stage. Unless you disabled or edit Github 
 - `phexpedition-test`: development and testing
 - `phexpedition`: production and beta
 
+#### Enable APIs
+
+In Google Cloud Console, enable these APIs manually (we will enable others using CI/CD):
+
+- Cloud Resource Manager API
+
 #### Create CI/CD service account (per stage)
 
 Go to *IAM* and create a new service account to be used by Github Actions
@@ -60,6 +66,7 @@ for further setting up your project and doing CI/CD:
 - Roles:
   - `Cloud Deploy Admin`
   - `Service Usage Admin`
+  - `Service Account Admin`
 
 
 #### Setup Github Actions Environment (per stage)

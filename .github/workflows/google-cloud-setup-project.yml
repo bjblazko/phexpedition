@@ -26,6 +26,9 @@ jobs:
       - name: Enable API - IAM
         run: |
           gcloud services enable iam.googleapis.com
+      - name: Enable API - IAM
+        run: |
+          gcloud services enable cloudresourcemanager.googleapis.com
       - name: Setup Cloud Run service account
         run: |
           gcloud iam service-accounts create appuser \
