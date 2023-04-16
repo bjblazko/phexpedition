@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: Beta
+      name: Prod
       url: ${{ vars.SERVICE_URL }}
 
     steps:
@@ -25,4 +25,11 @@ jobs:
           credentials_json: ${{ secrets.GOOGLE_KEY }}
       - name: Setup Cloud Run service account
         run: |
-          gcloud iam service-accounts create appuser --display-name="App Service Account"
+          gcloud iam service-accounts create appuser \
+            --display-name="App Service Account"
+      - name: Define roles for Cloud Run service account
+        run: |
+          gcloud projects add-iam-policy-binding ${{ secrets.GOOGLE_PROJECT }} \
+            --member "serviceAccount:appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
+            --role "roles/cloud.run.invoker" \
+            --role "roles/datastore.owner"
