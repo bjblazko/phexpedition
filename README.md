@@ -59,6 +59,7 @@ for further setting up your project and doing CI/CD:
 - _Service account description_: `Github CI service account`
 - Roles:
   - `Cloud Deploy Admin`
+  - `Service Usage Admin`
 
 
 #### Setup Github Actions Environment (per stage)
@@ -73,4 +74,7 @@ Then add these secrets:
 #### Initialize Google Cloud project
 
 In Github, go to _Actions_. On the left pane, you should see _Initialize Google Cloud Project_ workflow.
-Select it and click _Run workflow_ on the upper right.
+Select it and click _Run workflow_ on the upper right (from main branch).
+
+Since this workflow is typically only upon first setup, you have to manually
+approve it using _Review deployments_ &rarr; [Environment].

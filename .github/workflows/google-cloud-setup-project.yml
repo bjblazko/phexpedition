@@ -23,6 +23,9 @@ jobs:
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GOOGLE_KEY }}
+      - name: Enable API - IAM
+        run: |
+          gcloud services enable iam.googleapis.com
       - name: Setup Cloud Run service account
         run: |
           gcloud iam service-accounts create appuser \
