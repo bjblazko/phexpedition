@@ -32,7 +32,8 @@ jobs:
       - name: Setup Cloud Run service account
         run: |
           gcloud iam service-accounts create appuser \
-            --display-name="App Service Account"
+            --project ${{ secrets.GOOGLE_PROJECT }} \
+            --display-name "App Service Account"
       - name: Define roles for Cloud Run service account
         run: |
           gcloud projects add-iam-policy-binding ${{ secrets.GOOGLE_PROJECT }} \
