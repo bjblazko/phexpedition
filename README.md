@@ -49,11 +49,6 @@ make sure to create a new project per stage. Unless you disabled or edit Github 
 - `phexpedition-test`: development and testing
 - `phexpedition`: production and beta
 
-#### Enable APIs
-
-In Google Cloud Console, enable these APIs manually (we will enable others using CI/CD):
-
-- Cloud Resource Manager API
 
 #### Create CI/CD service account (per stage)
 
