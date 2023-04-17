@@ -63,6 +63,13 @@ jobs:
         run: gcloud services enable cloudresourcemanager.googleapis.com
       - name: Enable API - Artefact Registry
         run: gcloud services enable artifactregistry.googleapis.com
+      - name: Enable API - Secrets Manager
+        run: gcloud services enable secretmanager.googleapis.com
+      - name: Enable API - Cloud Run
+        run: gcloud services enable run.googleapis.com
+      - name: Enable API - Cloud Build
+        run: gcloud services enable cloudbuild.googleapis.com
+
 
 
       #
@@ -87,3 +94,9 @@ jobs:
             --member "serviceAccount:appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
             --condition=None \
             --role "roles/datastore.owner"
+      - name: Role - access secrets from Secrets manager
+        run: |
+          gcloud projects add-iam-policy-binding ${{ secrets.GOOGLE_PROJECT }} \
+            --member "serviceAccount:appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
+            --condition=None \
+            --role "roles/secretmanager.secretAccessor"

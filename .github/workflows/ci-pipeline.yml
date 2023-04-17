@@ -91,6 +91,7 @@ jobs:
             --source . \
             --region ${{ vars.GOOGLE_REGION }} \
             --allow-unauthenticated \
+            --service-account=appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com \\
             --set-env-vars AUTH_REDIRECT_URI=${{ vars.SERVICE_URL }} \
             --set-secrets AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest
 
@@ -123,5 +124,6 @@ jobs:
             --source . \
             --region ${{ vars.GOOGLE_REGION }} \
             --allow-unauthenticated \
+            --service-account=appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com \\
             --set-env-vars AUTH_REDIRECT_URI=${{ vars.SERVICE_URL }} \
             --set-secrets AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest
