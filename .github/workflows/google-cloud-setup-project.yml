@@ -76,10 +76,9 @@ jobs:
         run: |
           gcloud projects add-iam-policy-binding ${{ secrets.GOOGLE_PROJECT }} \
             --member "serviceAccount:appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
-            --role "roles/run.invoker" \
+            --role "roles/run.invoker"
+      - name: Role - Cloud Firestore Admin SDK
+        run: |
+          gcloud projects add-iam-policy-binding ${{ secrets.GOOGLE_PROJECT }} \
+            --member "serviceAccount:appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
             --role "roles/datastore.owner"
-#      - name: Role - Cloud Firestore Admin SDK
-#        run: |
-#          gcloud projects add-iam-policy-binding ${{ secrets.GOOGLE_PROJECT }} \
-#            --member "serviceAccount:appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
- #           --role "roles/datastore.owner"
