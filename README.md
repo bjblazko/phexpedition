@@ -59,10 +59,11 @@ for further setting up your project and doing CI/CD:
 - _Service account ID_: `github`
 - _Service account description_: `Github CI service account`
 - Roles:
-  - `Cloud Deploy Admin`
-  - `Service Usage Admin`
-  - `Service Account Admin`
+  - `Cloud Deploy Admin` (required for build app with Build Pack)
+  - `Service Usage Admin` (required to enable APIs)
+  - `Service Account Admin` (required to create service accounts such as for Cloud Run)
   - `Security Admin` (required for getting/adding IAM role bindings to service accounts)
+  - `Artifact Registry Writer` (required to push container image through Build Pack)
 
 
 #### Setup Github Actions Environment (per stage)
