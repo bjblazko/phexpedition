@@ -62,6 +62,7 @@ for further setting up your project and doing CI/CD:
   - `Cloud Deploy Admin`
   - `Service Usage Admin`
   - `Service Account Admin`
+  - `Security Admin` (required for getting/adding IAM role bindings to service accounts)
 
 
 #### Setup Github Actions Environment (per stage)

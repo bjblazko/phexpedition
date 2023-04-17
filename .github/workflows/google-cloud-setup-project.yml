@@ -1,13 +1,14 @@
 name: Initialize Google Cloud Project
 
+# Triggered manually in GitHub UI
 on:
   workflow_dispatch:
 
 jobs:
 
-  setup-test:
+  setup-project:
 
-    name: Google Cloud - setup
+    name: Setup Google Cloud project
     runs-on: ubuntu-latest
 
     environment:
@@ -15,20 +16,31 @@ jobs:
       url: ${{ vars.SERVICE_URL }}
 
     steps:
+
+      #
+      # Install Google Cloud SDK and authenticate against project
+      #
       - name: Install gcloud CLI
         uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: ${{ secrets.GOOGLE_PROJECT }}
+
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GOOGLE_KEY }}
+
+      #
+      # Enable required APIs
+      #
       - name: Enable API - IAM
-        run: |
-          gcloud services enable iam.googleapis.com
+        run: gcloud services enable iam.googleapis.com
       - name: Enable API - Cloud Resource Manager
-        run: |
-          gcloud services enable cloudresourcemanager.googleapis.com
+        run: gcloud services enable cloudresourcemanager.googleapis.com
+
+      #
+      # Service accounts and roles
+      #
       - name: Setup Cloud Run service account
         run: |
           gcloud iam service-accounts create appuser \
