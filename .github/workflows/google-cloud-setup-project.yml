@@ -25,6 +25,9 @@ jobs:
 
     steps:
 
+      - name: Hint
+        run: echo "Processing environment '${{ matrix.environment }}' with serive URL '${{ matrix.url }}'"
+
       #
       # Install Google Cloud SDK and authenticate against project
       #
