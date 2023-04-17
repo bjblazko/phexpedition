@@ -61,6 +61,9 @@ jobs:
         run: gcloud services enable iam.googleapis.com
       - name: Enable API - Cloud Resource Manager
         run: gcloud services enable cloudresourcemanager.googleapis.com
+      - name: Enable API - Artefact Registry
+        run: gcloud services enable artifactregistry.googleapis.com
+
 
       #
       # Service accounts and roles

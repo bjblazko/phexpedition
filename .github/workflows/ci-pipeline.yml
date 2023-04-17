@@ -14,9 +14,6 @@ jobs:
     name: Validate and build
     runs-on: ubuntu-latest
 
-    environment:
-      name: Test
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -32,9 +29,6 @@ jobs:
 
     name: Run (unit) tests
     runs-on: ubuntu-latest
-
-    environment:
-      name: Test
 
     needs: maven-validate
 
@@ -54,9 +48,6 @@ jobs:
 
     name: Sonarqube code analysis
     runs-on: ubuntu-latest
-
-    environment:
-      name: Test
 
     needs: maven-validate
 
