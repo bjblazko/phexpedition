@@ -64,6 +64,10 @@ for further setting up your project and doing CI/CD:
   - `Service Account Admin` (required to create service accounts such as for Cloud Run)
   - `Security Admin` (required for getting/adding IAM role bindings to service accounts)
   - `Artifact Registry Writer` (required to push container image through Build Pack)
+  - `Cloud Run Admin` (required to actually re-deploy Cloud Run instance)
+  - `Service Usage Consumer` (required for intermediate Cloud Storage)
+  - `Storage Object Admin` (same)
+  - `Cloud Deploy Service Agent` (hard to find that this is required...)
 
 
 #### Setup Github Actions Environment (per stage)
