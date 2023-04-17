@@ -1,3 +1,16 @@
+#
+# This is an action intended to further setup your Google Cloud project representing
+# a stage (such as test, production).
+#
+# It requires:
+# - you have (manually) created a Google Cloud project per stage
+# - you have set up a dedicated GitHub Actions Environment per stage
+# - you have setup a dedicated Google Cloud service account in each project
+#   with the roles as described in the README.md
+# - each GitHub Actions Environment has the according variables and secrets
+#   as described in the README.md
+#
+
 name: Initialize Google Cloud Project
 
 # Triggered manually in GitHub UI
@@ -57,9 +70,16 @@ jobs:
           gcloud iam service-accounts create appuser \
             --project ${{ secrets.GOOGLE_PROJECT }} \
             --display-name "App Service Account"
-      - name: Define roles for Cloud Run service account
+
+      # Roles
+      - name: Role - Cloud Run
         run: |
           gcloud projects add-iam-policy-binding ${{ secrets.GOOGLE_PROJECT }} \
             --member "serviceAccount:appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
-            --role "roles/cloud.run.invoker" \
+            --role "roles/run.invoker" \
             --role "roles/datastore.owner"
+#      - name: Role - Cloud Firestore Admin SDK
+#        run: |
+#          gcloud projects add-iam-policy-binding ${{ secrets.GOOGLE_PROJECT }} \
+#            --member "serviceAccount:appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
+ #           --role "roles/datastore.owner"

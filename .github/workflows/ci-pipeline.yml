@@ -104,22 +104,6 @@ jobs:
             --set-secrets AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest
 
 
-  deploy-beta:
-
-    name: Google Cloud - deploy to beta
-    runs-on: ubuntu-latest
-
-    environment:
-      name: Beta
-      url: https://beta.phexpedition.net
-
-    needs: [deploy-test]
-
-    steps:
-      - name: Print a variable
-        run: echo "The value of my_variable is ${{ github.workspace }}"
-
-
   deploy-prod:
 
     name: Google Cloud - deploy to production
