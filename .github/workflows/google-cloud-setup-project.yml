@@ -11,9 +11,17 @@ jobs:
     name: Setup Google Cloud project
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        include:
+          - environment: Test
+            url: ${{ vars.SERVICE_URL }}
+          - environment: Prod
+            url: ${{ vars.SERVICE_URL }}
+
     environment:
-      name: Prod
-      url: ${{ vars.SERVICE_URL }}
+      url: ${{ matrix.url }}
+      name: ${{ matrix.environment }}
 
     steps:
 
