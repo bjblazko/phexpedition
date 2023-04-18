@@ -96,6 +96,8 @@ jobs:
             --set-secrets AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest
 
 
+  # TODO: change this to re-use container image from previous step.
+  # see: https://cloud.google.com/deployment-manager/docs/configuration/using-images-from-other-projects-for-vm-instances#gcloud
   deploy-prod:
 
     name: Google Cloud - deploy to production
