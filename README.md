@@ -69,6 +69,7 @@ for further setting up your project and doing CI/CD:
   - `Service Usage Consumer` (required for intermediate Cloud Storage)
   - `Storage Object Admin` (same)
   - `Cloud Deploy Service Agent` (hard to find that this is required...)
+  - `Secret Manager Secret Accessor`
 
 
 #### Setup Github Actions Environment (per stage)

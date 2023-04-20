@@ -91,9 +91,9 @@ jobs:
             --source . \
             --region ${{ vars.GOOGLE_REGION }} \
             --allow-unauthenticated \
-            --service-account=appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
-            --set-env-vars AUTH_REDIRECT_URI=${{ vars.SERVICE_URL }} \
-            --set-secrets AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest
+            --service-account appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
+            --set-env-vars 'AUTH_REDIRECT_URI=${{ vars.SERVICE_URL }}' \
+            --set-secrets 'AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest'
 
 
   # TODO: change this to re-use container image from previous step.
@@ -126,6 +126,6 @@ jobs:
             --source . \
             --region ${{ vars.GOOGLE_REGION }} \
             --allow-unauthenticated \
-            --service-account=appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
+            --service-account appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
             --set-env-vars AUTH_REDIRECT_URI=${{ vars.SERVICE_URL }} \
             --set-secrets AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest
