@@ -66,7 +66,7 @@ jobs:
 
   deploy-test:
 
-    name: Google Cloud - deploy to test
+    name: Cloud build & deploy to test
     runs-on: ubuntu-latest
 
     needs: [maven-test, maven-sonarqube]
@@ -101,7 +101,7 @@ jobs:
   # see: https://cloud.google.com/deployment-manager/docs/configuration/using-images-from-other-projects-for-vm-instances#gcloud
   deploy-prod:
 
-    name: Google Cloud - deploy to production
+    name: Deploy to production
     runs-on: ubuntu-latest
 
     environment:
@@ -124,7 +124,7 @@ jobs:
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy ${{ vars.SERVICE_NAME }} \
-            --image eu.gcr.io/${{ vars.GOOGLE_PROJECT_TEST }}/global/images/phexpedition_app:latest \
+            --image gcr.io/phexpedition-test-359110/github.com/bjblazko/phexpedition:5a31110d89608ac5973334e11482fc83ee19f700 \
             --region ${{ vars.GOOGLE_REGION }} \
             --allow-unauthenticated \
             --service-account appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
