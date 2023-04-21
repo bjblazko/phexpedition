@@ -19,9 +19,9 @@ on:
 
 jobs:
 
-  setup-project:
+  setup-common:
 
-    name: Setup Google Cloud project
+    name: Setup Google Cloud project common stuff
     runs-on: ubuntu-latest
 
     strategy:
@@ -47,7 +47,7 @@ jobs:
       - name: Install gcloud CLI
         uses: google-github-actions/setup-gcloud@v1
         with:
-          project_id: ${{ secrets.GOOGLE_PROJECT }}
+          project_id: ${{ vars.GOOGLE_PROJECT }}
 
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
@@ -61,15 +61,10 @@ jobs:
         run: gcloud services enable iam.googleapis.com
       - name: Enable API - Cloud Resource Manager
         run: gcloud services enable cloudresourcemanager.googleapis.com
-      - name: Enable API - Artefact Registry
-        run: gcloud services enable artifactregistry.googleapis.com
       - name: Enable API - Secrets Manager
         run: gcloud services enable secretmanager.googleapis.com
       - name: Enable API - Cloud Run
         run: gcloud services enable run.googleapis.com
-      - name: Enable API - Cloud Build
-        run: gcloud services enable cloudbuild.googleapis.com
-
 
 
       #
@@ -78,25 +73,105 @@ jobs:
       - name: Setup Cloud Run service account
         run: |
           gcloud iam service-accounts create appuser \
-            --project ${{ secrets.GOOGLE_PROJECT }} \
+            --project ${{ vars.GOOGLE_PROJECT }} \
             --display-name "App Service Account" \
             --quiet
 
       - name: Role - Cloud Run
         run: |
-          gcloud projects add-iam-policy-binding ${{ secrets.GOOGLE_PROJECT }} \
-            --member "serviceAccount:appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
+          gcloud projects add-iam-policy-binding ${{ vars.GOOGLE_PROJECT }} \
+            --member "serviceAccount:appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
             --condition None \
             --role "roles/run.invoker"
       - name: Role - Cloud Firestore Admin SDK
         run: |
-          gcloud projects add-iam-policy-binding ${{ secrets.GOOGLE_PROJECT }} \
-            --member "serviceAccount:appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
+          gcloud projects add-iam-policy-binding ${{ vars.GOOGLE_PROJECT }} \
+            --member "serviceAccount:appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
             --condition None \
             --role "roles/datastore.owner"
       - name: Role - access secrets from Secrets manager
         run: |
-          gcloud projects add-iam-policy-binding ${{ secrets.GOOGLE_PROJECT }} \
-            --member "serviceAccount:appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
+          gcloud projects add-iam-policy-binding ${{ vars.GOOGLE_PROJECT }} \
+            --member "serviceAccount:appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
             --condition None \
             --role "roles/secretmanager.secretAccessor"
+
+
+
+  setup-test:
+
+    name: Setup Google Cloud project test
+    runs-on: ubuntu-latest
+
+    needs: [setup-common]
+
+    environment:
+      name: Test
+      url: ${{ vars.SERVICE_URL }}
+
+    steps:
+
+      #
+      # Install Google Cloud SDK and authenticate against project
+      #
+      #- name: Install gcloud CLI
+      #  uses: google-github-actions/setup-gcloud@v1
+      #  with:
+      #    project_id: ${{ vars.GOOGLE_PROJECT }}
+
+      #- name: Authenticate with Google Cloud
+      #  uses: google-github-actions/auth@v1
+      #  with:
+      #    credentials_json: ${{ secrets.GOOGLE_KEY }}
+
+      #
+      # Enable required APIs
+      #
+      - name: Enable API - Artefact Registry
+        run: gcloud services enable artifactregistry.googleapis.com
+      - name: Enable API - Cloud Build
+        run: gcloud services enable cloudbuild.googleapis.com
+
+
+  setup-prod:
+
+    name: Setup Google Cloud project prod
+    runs-on: ubuntu-latest
+
+    needs: [setup-common]
+
+    environment:
+      name: Prod
+      url: ${{ vars.SERVICE_URL }}
+
+    steps:
+
+      #
+      # Install Google Cloud SDK and authenticate against project
+      #
+      #- name: Install gcloud CLI
+      #  uses: google-github-actions/setup-gcloud@v1
+      #  with:
+      #    project_id: ${{ vars.GOOGLE_PROJECT }}
+
+      #- name: Authenticate with Google Cloud
+      #  uses: google-github-actions/auth@v1
+      #  with:
+      #    credentials_json: ${{ secrets.GOOGLE_KEY }}
+
+      #
+      # Enable required APIs
+      #
+      - name: Enable API - Artefact Registry
+        run: gcloud services enable artifactregistry.googleapis.com
+
+      #
+      # Service accounts and roles
+      #
+      - name: Role - Access images from test project
+        run: |
+          gcloud projects add-iam-policy-binding ${{ vars.GOOGLE_IMAGE_PROJECT }} \
+            --member "serviceAccount:appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
+            --condition None \
+            --role roles/compute.imageUser
+    

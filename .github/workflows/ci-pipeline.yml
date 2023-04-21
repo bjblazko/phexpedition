@@ -1,10 +1,11 @@
 name: Build, test and deploy
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
+  #push:
+  #  branches: [ "main" ]
+  #pull_request:
+  #  branches: [ "main" ]
 
 
 jobs:
@@ -80,7 +81,7 @@ jobs:
       - name: Set up GCP project and credentials
         uses: google-github-actions/setup-gcloud@v1
         with:
-          project_id: ${{ secrets.GOOGLE_PROJECT }}
+          project_id: ${{ vars.GOOGLE_PROJECT }}
       - name: Authenticate with GCP
         uses: google-github-actions/auth@v1
         with:
@@ -91,7 +92,7 @@ jobs:
             --source . \
             --region ${{ vars.GOOGLE_REGION }} \
             --allow-unauthenticated \
-            --service-account appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
+            --service-account appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
             --set-env-vars 'AUTH_REDIRECT_URI=${{ vars.SERVICE_URL }}' \
             --set-secrets 'AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest'
 
@@ -115,7 +116,7 @@ jobs:
       - name: Set up GCP project and credentials
         uses: google-github-actions/setup-gcloud@v1
         with:
-          project_id: ${{ secrets.GOOGLE_PROJECT }}
+          project_id: ${{ vars.GOOGLE_PROJECT }}
       - name: Authenticate with GCP
         uses: google-github-actions/auth@v1
         with:
@@ -126,6 +127,6 @@ jobs:
             --source . \
             --region ${{ vars.GOOGLE_REGION }} \
             --allow-unauthenticated \
-            --service-account appuser@${{ secrets.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
+            --service-account appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
             --set-env-vars AUTH_REDIRECT_URI=${{ vars.SERVICE_URL }} \
             --set-secrets AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest
