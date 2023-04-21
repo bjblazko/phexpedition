@@ -132,6 +132,18 @@ jobs:
       - name: Enable API - Cloud Build
         run: gcloud services enable cloudbuild.googleapis.com --project ${{ vars.GOOGLE_PROJECT }}
 
+      #
+      # Roles
+      #
+      # Prod -> images on Test
+      - name: Role - Access images from test project from prod
+        run: |
+          gcloud projects add-iam-policy-binding ${{ vars.GOOGLE_IMAGE_PROJECT }} \
+            --member "serviceAccount:appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
+            --condition None \
+            --role roles/compute.imageUser
+
+
 
   setup-prod:
 
@@ -159,17 +171,3 @@ jobs:
         with:
           credentials_json: ${{ secrets.GOOGLE_KEY }}
 
-      #
-      # Enable required APIs
-      #
-
-      #
-      # Service accounts and roles
-      #
-      - name: Role - Access images from test project
-        run: |
-          gcloud projects add-iam-policy-binding ${{ vars.GOOGLE_IMAGE_PROJECT }} \
-            --member "serviceAccount:appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
-            --condition None \
-            --role roles/compute.imageUser
-    
