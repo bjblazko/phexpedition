@@ -124,7 +124,7 @@ jobs:
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy ${{ vars.SERVICE_NAME }} \
-            --image image: eu.gcr.io/${{ vars.GOOGLE_PROJECT_TEST }}/global/images/phexpedition_app:latest \
+            --image eu.gcr.io/${{ vars.GOOGLE_PROJECT_TEST }}/global/images/phexpedition_app:latest \
             --region ${{ vars.GOOGLE_REGION }} \
             --allow-unauthenticated \
             --service-account appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
