@@ -114,15 +114,15 @@ jobs:
       #
       # Install Google Cloud SDK and authenticate against project
       #
-      #- name: Install gcloud CLI
-      #  uses: google-github-actions/setup-gcloud@v1
-      #  with:
-      #    project_id: ${{ vars.GOOGLE_PROJECT }}
+      - name: Install gcloud CLI
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ vars.GOOGLE_PROJECT }}
 
-      #- name: Authenticate with Google Cloud
-      #  uses: google-github-actions/auth@v1
-      #  with:
-      #    credentials_json: ${{ secrets.GOOGLE_KEY }}
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GOOGLE_KEY }}
 
       #
       # Enable required APIs
@@ -149,15 +149,15 @@ jobs:
       #
       # Install Google Cloud SDK and authenticate against project
       #
-      #- name: Install gcloud CLI
-      #  uses: google-github-actions/setup-gcloud@v1
-      #  with:
-      #    project_id: ${{ vars.GOOGLE_PROJECT }}
+      - name: Install gcloud CLI
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ vars.GOOGLE_PROJECT }}
 
-      #- name: Authenticate with Google Cloud
-      #  uses: google-github-actions/auth@v1
-      #  with:
-      #    credentials_json: ${{ secrets.GOOGLE_KEY }}
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GOOGLE_KEY }}
 
       #
       # Enable required APIs
