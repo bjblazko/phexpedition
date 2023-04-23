@@ -10,6 +10,9 @@ on:
 
 jobs:
 
+  #
+  # Validate and compile
+  #
   maven-validate:
 
     name: Validate and build
@@ -17,15 +20,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 11
+      - name: Set up Java and Maven
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
           cache: maven
       - name: Verify with Maven
-        run: mvn -B clean compile --file pom.xml
+        run: mvn -B clean compile -DskipTests=true --file pom.xml
 
+
+  #
+  # Run unit tests
+  #
   maven-test:
 
     name: Run (unit) tests
@@ -35,16 +42,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 11
+    - name: Set up Java and Maven
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
     - name: Run tests with Maven
-      run: mvn -B test -DskipTests=true --file pom.xml
+      run: mvn -B test --file pom.xml
 
 
+  #
+  # QA: Sonarqube (sonarcloud.io)
+  #
   maven-sonarqube:
 
     name: Sonarqube code analysis
@@ -54,16 +64,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 11
+      - name: Set up Java and Maven
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
       - name: Run code analysis through Sonarqube with Maven
-        run: mvn -B verify sonar:sonar --file pom.xml -Pcoverage -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify sonar:sonar -DskipTests=true --file pom.xml -Pcoverage -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
 
+  #
+  # Deploy to test
+  # Will build container image from sources using Build Packs.
+  # The image then is provided to be picket up by other stages.
+  #
   deploy-test:
 
     name: Cloud build & deploy to test
@@ -97,8 +112,10 @@ jobs:
             --set-secrets 'AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest'
 
 
-  # TODO: change this to re-use container image from previous step.
-  # see: https://cloud.google.com/deployment-manager/docs/configuration/using-images-from-other-projects-for-vm-instances#gcloud
+  #
+  # Deploy to production
+  # Will re-use container image built in deployment to 'test'
+  #
   deploy-prod:
 
     name: Deploy to production
@@ -111,8 +128,6 @@ jobs:
     needs: [deploy-test]
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
       - name: Set up GCP project and credentials
         uses: google-github-actions/setup-gcloud@v1
         with:
