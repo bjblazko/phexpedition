@@ -113,6 +113,41 @@ jobs:
 
 
   #
+  # Deploy to staging
+  # Will re-use container image built in deployment to 'test'
+  #
+  deploy-staging:
+
+    name: Deploy to production
+    runs-on: ubuntu-latest
+
+    environment:
+      name: Staging
+      url: ${{ vars.SERVICE_URL }}
+
+    needs: [deploy-test]
+
+    steps:
+      - name: Set up GCP project and credentials
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ vars.GOOGLE_PROJECT }}
+      - name: Authenticate with GCP
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GOOGLE_KEY }}
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ vars.SERVICE_NAME }} \
+            --image europe-west1-docker.pkg.dev/${{ vars.GOOGLE_PROJECT }}/cloud-run-source-deploy/phexpedition-app:latest \
+            --region ${{ vars.GOOGLE_REGION }} \
+            --allow-unauthenticated \
+            --service-account appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
+            --set-env-vars AUTH_REDIRECT_URI=${{ vars.SERVICE_URL }} \
+            --set-secrets AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest
+
+
+  #
   # Deploy to production
   # Will re-use container image built in deployment to 'test'
   #
@@ -123,7 +158,7 @@ jobs:
 
     environment:
       name: Prod
-      url: https://phexpedition.net
+      url: ${{ vars.SERVICE_URL }}
 
     needs: [deploy-test]
 

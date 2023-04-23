@@ -138,7 +138,14 @@ jobs:
       # Roles
       #
       # Prod -> images on Test
-      - name: Role - Access images from test project from prod
+      - name: Role - Access images of test project from staging
+        run: |
+          gcloud projects add-iam-policy-binding ${{ vars.GOOGLE_PROJECT }} \
+            --member "serviceAccount:appuser@${{ vars.GOOGLE_PROJECT_STAGING }}.iam.gserviceaccount.com" \
+            --condition None \
+            --role roles/compute.imageUser
+      # Prod -> images on Test
+      - name: Role - Access images of test project from prod
         run: |
           gcloud projects add-iam-policy-binding ${{ vars.GOOGLE_PROJECT }} \
             --member "serviceAccount:appuser@${{ vars.GOOGLE_PROJECT_PROD }}.iam.gserviceaccount.com" \
