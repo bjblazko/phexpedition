@@ -39,8 +39,14 @@ When having logged in to [Google Cloud Console](https://console.cloud.google.com
 make sure to create a new project per stage. Unless you disabled or edit GitHub Actions Environments and workflow, these are currently:
 
 - `phexpedition-test`: development and testing
-- `phexpedition`: production and beta
+- `phexpedition-staging`: staging environment used to test perior deploying to production
+- `phexpedition`: production
 
+Production and staging use the Cloud Run image built in `phexpedition-stage`. In order to get
+it working, we require the Google Artifact Registry, not the obsolete Container Registry.
+Upon first Cloud Run deployment, you might get a timeout/error 1. In this case, use
+the Google Cloud Console and go to Container Registry and activate using the new
+Artifact Registry via `Transition to Artifact Registry` dialog there.
 
 ### Create CI/CD service account (per stage)
 
