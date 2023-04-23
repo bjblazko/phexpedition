@@ -21,7 +21,7 @@ jobs:
 
   setup-common:
 
-    name: Setup Google Cloud project common stuff
+    name: common stuff - setup Google Cloud project
     runs-on: ubuntu-latest
 
     strategy:
@@ -102,7 +102,7 @@ jobs:
 
   setup-test:
 
-    name: Setup Google Cloud project test
+    name: Setup Test
     runs-on: ubuntu-latest
 
     needs: [setup-staging-and-prod]
@@ -156,7 +156,7 @@ jobs:
 
   setup-staging-and-prod:
 
-    name: Setup operative Google Cloud projects
+    name: Setup operative projects
     runs-on: ubuntu-latest
 
     needs: [setup-common]
