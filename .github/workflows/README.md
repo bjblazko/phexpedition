@@ -26,6 +26,11 @@ We employ these technologies, products or facilities in order to build and opera
     - Cloud Run for the application itself
     - several related and required facilities like IAM etc.
 
+These two file make up CI/CD:
+
+- `google-cloud-setup-project.yml`: action to (typically) setup your Google projects *once* (together with some manual steps)
+- `ci-pipeline.yml`: ongoing CI/CD pipeline
+
 ## 1st time setup - manual steps
 
 ### Create Google Cloud project (per stage)
@@ -114,11 +119,17 @@ classDiagram
     ProdVar --> Prod
 ```
 In you repository fork, go to _Settings_ &rarr; _Environments_ &rarr; _New environment_ (or choose existing one).
-Then add these secrets:
+Then add these secrets and variables:
 
-* `GOOGLE_PROJECT`: the ID (not name!) of your Google Cloud project, e.g. `my-phexpedition-prod-12345`
-* `GOOGLE_KEY`: the JSON key of the `github` service account you previously created; just go to _IAM_ &rarr; _Service accounts_ &rarr; choose `github` &rarr; Keys &rarr; _Add key_ &rarr; _Create new key_ &rarr; _JSON_ and use the contents of the file just downloaded as the secret value
-* `SONAR_KEY`: (!!! Only for environment `Test`): API Token from [Sonar Cloud](https://sonarcloud.io)
+- Repository variables
+  - `SERVICE_NAME`: name of the service used for Cloud Run, e.g. `phexpedition-app`
+  - `GOOGLE_REGION`: you deployment region, e.g. `europe-west1`
+  - `SONAR_TOKEN` (secret): API key from [SonarCloud](https://sonarcloud.io) used for doing QA against the code
+- per stage variables/secrets
+  - `GOOGLE_PROJECT`: ID of your Google project for that stage, e.g. `phex-test-12345`
+  - `SERVICE_URL`: your URL to the application (current stage) - may be the generated Cloud Run URL or a custom mapped DNS name, e.g. `https://test.phexpedition.net`
+  - `GOOGLE_KEY` (secret): JSON key file contents of the operating Google Service account in charge for deployment (`github`)
+
 
 ### Initialize Google Cloud project
 
