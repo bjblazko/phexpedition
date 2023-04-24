@@ -74,6 +74,33 @@ jobs:
         run: mvn -B verify sonar:sonar -DskipTests=true --file pom.xml -Pcoverage -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
 
+  containerize:
+
+    name: Container image
+    runs-on: ubuntu-latest
+
+    needs: [maven-test, maven-sonarqube]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Java and Maven
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build
+        run: mvn package -DskipTests=true
+      - name: Build and publish Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: phexpedition-app:latest
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+
   #
   # Deploy to test
   # Will build container image from sources using Build Packs.
