@@ -48,6 +48,7 @@ Upon first Cloud Run deployment, you might get a timeout/error 1. In this case, 
 the Google Cloud Console and go to Container Registry and activate using the new
 Artifact Registry via `Transition to Artifact Registry` dialog there.
 
+
 ### Create CI/CD service account (per stage)
 
 Go to *IAM* and create a new service account to be used by GitHub Actions
@@ -57,16 +58,10 @@ for further setting up your project and doing CI/CD:
 - _Service account ID_: `github`
 - _Service account description_: `GitHub CI service account`
 - Roles:
-    - `Cloud Deploy Admin` (required for build app with Build Pack)
     - `Service Usage Admin` (required to enable APIs)
     - `Service Account Admin` (required to create service accounts such as for Cloud Run)
     - `Security Admin` (required for getting/adding IAM role bindings to service accounts)
-    - `Artifact Registry Administrator` (required to push container image through Build Pack)
-    - `Artifact Registry Service Agent`
     - `Cloud Run Admin` (required to actually re-deploy Cloud Run instance)
-    - `Service Usage Consumer` (required for intermediate Cloud Storage)
-    - `Storage Object Admin` (same)
-    - `Cloud Deploy Service Agent` (hard to find that this is required...)
 
 
 ### Setup GitHub Actions Environment (per stage)

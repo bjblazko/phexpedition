@@ -19,9 +19,9 @@ on:
 
 jobs:
 
-  setup-common:
+  setup-projects:
 
-    name: common stuff - setup Google Cloud project
+    name: Setup Google Cloud projects
     runs-on: ubuntu-latest
 
     strategy:
@@ -61,14 +61,12 @@ jobs:
       #
       - name: Enable API - IAM
         run: gcloud services enable iam.googleapis.com --project ${{ vars.GOOGLE_PROJECT }}
-      - name: Enable API - Cloud Resource Manager
-        run: gcloud services enable cloudresourcemanager.googleapis.com --project ${{ vars.GOOGLE_PROJECT }}
+      #- name: Enable API - Cloud Resource Manager
+      #  run: gcloud services enable cloudresourcemanager.googleapis.com --project ${{ vars.GOOGLE_PROJECT }}
       - name: Enable API - Secrets Manager
         run: gcloud services enable secretmanager.googleapis.com --project ${{ vars.GOOGLE_PROJECT }}
       - name: Enable API - Cloud Run
         run: gcloud services enable run.googleapis.com --project ${{ vars.GOOGLE_PROJECT }}
-      - name: Enable API - Artefact Registry
-        run: gcloud services enable artifactregistry.googleapis.com --project ${{ vars.GOOGLE_PROJECT }}
 
 
       #
@@ -99,92 +97,3 @@ jobs:
             --member "serviceAccount:appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com" \
             --condition None \
             --role "roles/secretmanager.secretAccessor"
-
-
-
-  setup-test:
-
-    name: Setup Test
-    runs-on: ubuntu-latest
-
-    needs: [setup-staging-and-prod]
-
-    environment:
-      name: Test
-      url: ${{ vars.SERVICE_URL }}
-
-    steps:
-
-      #
-      # Install Google Cloud SDK and authenticate against project
-      #
-      - name: Install gcloud CLI
-        uses: google-github-actions/setup-gcloud@v1
-        with:
-          project_id: ${{ vars.GOOGLE_PROJECT }}
-
-      - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v1
-        with:
-          credentials_json: ${{ secrets.GOOGLE_KEY }}
-
-      #
-      # Enable required APIs
-      #
-      - name: Enable API - Cloud Build
-        run: gcloud services enable cloudbuild.googleapis.com --project ${{ vars.GOOGLE_PROJECT }}
-
-      #
-      # Roles
-      #
-      # Prod -> images on Test
-      - name: Role - Access images of test project from staging
-        run: |
-          gcloud projects add-iam-policy-binding ${{ vars.GOOGLE_PROJECT }} \
-            --member "serviceAccount:appuser@${{ vars.GOOGLE_PROJECT_STAGING }}.iam.gserviceaccount.com" \
-            --condition None \
-            --role roles/compute.imageUser
-      # Prod -> images on Test
-      - name: Role - Access images of test project from prod
-        run: |
-          gcloud projects add-iam-policy-binding ${{ vars.GOOGLE_PROJECT }} \
-            --member "serviceAccount:appuser@${{ vars.GOOGLE_PROJECT_PROD }}.iam.gserviceaccount.com" \
-            --condition None \
-            --role roles/compute.imageUser
-
-
-
-  setup-staging-and-prod:
-
-    name: Setup operative projects
-    runs-on: ubuntu-latest
-
-    needs: [setup-common]
-
-    strategy:
-      matrix:
-        include:
-          - environment: Staging
-            url: ${{ vars.SERVICE_URL }}
-          - environment: Prod
-            url: ${{ vars.SERVICE_URL }}
-
-    environment:
-      url: ${{ matrix.url }}
-      name: ${{ matrix.environment }}
-
-    steps:
-
-      #
-      # Install Google Cloud SDK and authenticate against project
-      #
-      - name: Install gcloud CLI
-        uses: google-github-actions/setup-gcloud@v1
-        with:
-          project_id: ${{ vars.GOOGLE_PROJECT }}
-
-      - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v1
-        with:
-          credentials_json: ${{ secrets.GOOGLE_KEY }}
-
