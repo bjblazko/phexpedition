@@ -79,7 +79,7 @@ jobs:
     name: Container image
     runs-on: ubuntu-latest
 
-    needs: [maven-test, maven-sonarqube]
+    needs: [maven-test]
 
     steps:
       - uses: actions/checkout@v3
@@ -101,7 +101,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: phexpedition-app:latest
+          tags: bjblazko/phexpedition-app:latest
 
 
   #
