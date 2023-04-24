@@ -155,7 +155,7 @@ jobs:
       name: Staging
       url: ${{ vars.SERVICE_URL }}
 
-    needs: [deploy-test]
+    needs: [containerize]
 
     steps:
       - name: Set up GCP project and credentials
