@@ -79,7 +79,7 @@ jobs:
     name: Container image
     runs-on: ubuntu-latest
 
-    needs: [maven-test]
+    needs: [maven-test, maven-sonarqube]
 
     steps:
       - uses: actions/checkout@v3
@@ -114,7 +114,7 @@ jobs:
     name: Cloud build & deploy to Test
     runs-on: ubuntu-latest
 
-    needs: [maven-test, maven-sonarqube]
+    needs: [containerize]
 
     environment:
       name: Test
@@ -134,7 +134,7 @@ jobs:
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy ${{ vars.SERVICE_NAME }} \
-            --source . \
+            --image docker.io/bjblazko/phexpedition-app:latest \
             --region ${{ vars.GOOGLE_REGION }} \
             --allow-unauthenticated \
             --service-account appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
@@ -155,7 +155,7 @@ jobs:
       name: Staging
       url: ${{ vars.SERVICE_URL }}
 
-    needs: [containerize]
+    needs: [deploy-test]
 
     steps:
       - name: Set up GCP project and credentials
@@ -204,7 +204,7 @@ jobs:
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy ${{ vars.SERVICE_NAME }} \
-            --image europe-west1-docker.pkg.dev/${{ vars.GOOGLE_PROJECT_TEST }}/cloud-run-source-deploy/phexpedition-app:latest \
+            --image docker.io/bjblazko/phexpedition-app:latest \
             --region ${{ vars.GOOGLE_REGION }} \
             --allow-unauthenticated \
             --service-account appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
