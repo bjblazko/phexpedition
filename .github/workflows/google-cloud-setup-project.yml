@@ -61,8 +61,8 @@ jobs:
       #
       - name: Enable API - IAM
         run: gcloud services enable iam.googleapis.com --project ${{ vars.GOOGLE_PROJECT }}
-      #- name: Enable API - Cloud Resource Manager
-      #  run: gcloud services enable cloudresourcemanager.googleapis.com --project ${{ vars.GOOGLE_PROJECT }}
+      - name: Enable API - Cloud Resource Manager
+        run: gcloud services enable cloudresourcemanager.googleapis.com --project ${{ vars.GOOGLE_PROJECT }}
       - name: Enable API - Secrets Manager
         run: gcloud services enable secretmanager.googleapis.com --project ${{ vars.GOOGLE_PROJECT }}
       - name: Enable API - Cloud Run
