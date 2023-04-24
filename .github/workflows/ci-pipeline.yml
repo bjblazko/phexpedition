@@ -97,8 +97,8 @@ jobs:
           context: .
           push: true
           tags: phexpedition-app:latest
-          username: ${{ secrets.DOCKERHUB_USER }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          #username: ${{ secrets.DOCKERHUB_USER }}
+          github-token: ${{ secrets.DOCKERHUB_TOKEN }}
 
 
   #
