@@ -169,7 +169,7 @@ jobs:
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy ${{ vars.SERVICE_NAME }} \
-            --image europe-west1-docker.pkg.dev/${{ vars.GOOGLE_PROJECT_TEST }}/cloud-run-source-deploy/phexpedition-app:latest \
+            --image docker pull bjblazko/phexpedition-app \
             --region ${{ vars.GOOGLE_REGION }} \
             --allow-unauthenticated \
             --service-account appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
