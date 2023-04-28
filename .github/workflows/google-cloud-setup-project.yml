@@ -21,7 +21,7 @@ jobs:
 
   setup-projects:
 
-    name: Setup Google Cloud projects
+    name: Setup project
     runs-on: ubuntu-latest
 
     strategy:

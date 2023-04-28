@@ -60,64 +60,48 @@ for further setting up your project and doing CI/CD:
 - Roles:
     - `Service Usage Admin` (required to enable APIs)
     - `Service Account Admin` (required to create service accounts such as for Cloud Run)
+    - `Service Account User` (required to create service accounts such as for Cloud Run)
     - `Security Admin` (required for getting/adding IAM role bindings to service accounts)
     - `Cloud Run Admin` (required to actually re-deploy Cloud Run instance)
 
 
 ### Setup GitHub Actions Environment (per stage)
 
+*: items marked with an asterisk are secrets - the others are variables
+
 ```mermaid
 classDiagram
-    class Test
-    class Staging
-    class Prod
 
-    class RepoVar {
+    class Test {
+        GOOGLE_KEY*
+        GOOGLE_PROJECT
+        SERVICE_URL
+    }
+
+    class Staging {
+        GOOGLE_KEY*
+        GOOGLE_PROJECT
+        SERVICE_URL
+    }
+
+    class Prod {
+        GOOGLE_KEY*
+        GOOGLE_PROJECT
+        SERVICE_URL
+    }
+
+    class Repository {
         SERVICE_NAME
-        SONAR_TOKEN
-        GOOGLE_PROJECT_STAGING
-        GOOGLE_PROJECT_PROD
-    }
-
-    class TestSecret {
-        GOOGLE_KEY
-    }
-    class TestVar {
-        GOOGLE_PROJECT
         GOOGLE_REGION
-        SERVICE_URL
+        SONAR_TOKEN*
+        DOCKERHUB_USER*
+        DOCKERHUB_TOKEN*
     }
 
-    class StagingSecret {
-        GOOGLE_KEY
-    }
-    class StagingVar {
-        GOOGLE_PROJECT
-        GOOGLE_REGION
-        SERVICE_URL
-    }
+    Repository --> Test
+    Repository --> Staging
+    Repository --> Prod
 
-    class Secret {
-        GOOGLE_KEY
-    }
-    class ProdVar {
-        GOOGLE_PROJECT
-        GOOGLE_REGION
-        SERVICE_URL
-    }
-
-    RepoVar --> Test
-    RepoVar --> Staging
-    RepoVar --> Prod
-
-    TestSecret --> Test
-    TestVar --> Test
-
-    StagingSecret --> Staging
-    StagingVar --> Staging
-
-    ProdSecret --> Prod
-    ProdVar --> Prod
 ```
 In you repository fork, go to _Settings_ &rarr; _Environments_ &rarr; _New environment_ (or choose existing one).
 Then add these secrets and variables:
@@ -126,6 +110,8 @@ Then add these secrets and variables:
   - `SERVICE_NAME`: name of the service used for Cloud Run, e.g. `phexpedition-app`
   - `GOOGLE_REGION`: you deployment region, e.g. `europe-west1`
   - `SONAR_TOKEN` (secret): API key from [SonarCloud](https://sonarcloud.io) used for doing QA against the code
+  - `DOCKERHUB_USER*` (secret): you dockerhub.io user ID
+  - `DOCKERHUB_TOKEN*` (secret): you dockerhub.io API token (do not use your own passphrase but go to settings to create a dedicated token)
 - per stage variables/secrets
   - `GOOGLE_PROJECT`: ID of your Google project for that stage, e.g. `phex-test-12345`
   - `SERVICE_URL`: your URL to the application (current stage) - may be the generated Cloud Run URL or a custom mapped DNS name, e.g. `https://test.phexpedition.net`
