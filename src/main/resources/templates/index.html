@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="EN">
+<html lang="EN" en>
 <head>
     <title>phexpedition.net</title>
     <meta charset="utf-8"/>
@@ -20,9 +20,9 @@
     // see: (CORS server side) https://gist.github.com/bretmcg/edf0e80a1c600de6c2d40c973de55fc3
     // see: https://developers.google.com/identity/openid-connect/openid-connect
     let config = {
-        authority: '{{ authAuthority }}',
-        clientId: '{{ authClientId }}',
-        redirectUri: '{{ authRedirectUri }}',
+        authority: '{authAuthority}',
+        clientId: '{authClientId}',
+        redirectUri: '{authRedirectUri}',
         responseType: 'token id_token',
         scope: 'openid profile email',
     }
@@ -51,15 +51,16 @@
         //console.log(idToken)
         api(idToken)
 
+
     } else {
         document.getElementById('loginButton').addEventListener('click', function () {
-            window.location.href = `${config.authority}?` +
-                `response_type=${encodeURIComponent(config.responseType)}&` +
-                `client_id=${config.clientId}&` +
-                `redirect_uri=${config.redirectUri}&` +
-                `scope=${encodeURIComponent(config.scope)}&` +
-                `state=huepattl-${Date.now()}&` +
-                `nonce=huepattl-nonce-${Date.now()}`
+            window.location.href = `${ config.authority }?` +
+                `response_type=${ encodeURIComponent(config.responseType) }&` +
+                `client_id=${ config.clientId }&` +
+                `redirect_uri=${ config.redirectUri }&` +
+                `scope=${ encodeURIComponent(config.scope) }&` +
+                `state=huepattl-${ Date.now() }&` +
+                `nonce=huepattl-nonce-${ Date.now() }`
         })
     }
 
@@ -87,17 +88,14 @@
         fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${idToken}`,
-                'Penis': 'Fotze',
+                'Authorization': `Bearer ${ idToken }`,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }
         }).then((response) => response.json())
             .then((data) => {
                 console.log(data)
-                data.forEach(person => {
-                    console.log(`Name: ${person.name}`)
-                })
+                console.log(`Name: ${ data.jwt }`)
             })
     }
 
