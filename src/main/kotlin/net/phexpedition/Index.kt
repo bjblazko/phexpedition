@@ -31,6 +31,7 @@ class Index(
     fun index(): TemplateInstance {
         return template
             .data("authRedirectUri", baseUrl)
+            .data("baseUrl", baseUrl)
             .data("authClientId", clientId)
             .data("authAuthority", authority)
     }
