@@ -4,18 +4,24 @@
     <title>phexpedition.net</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+<div hidden>
+    <auth-client-id>{authClientId}</auth-client-id>
+    <auth-authority>{authAuthority}</auth-authority>
+    <auth-redirect-uri>{authRedirectUri}</auth-redirect-uri>
+    <base-url>{baseUrl}</base-url>
+</div>
 <h1>phexpedition.net</h1>
 <p>Nothing to see here! Move along, move along...</p>
 <button id="loginButton">Login</button>
 <div id="message"></div>
-<div id="userInfo" style="display: none; visibility: hidden">
+<div id="userInfo">
     Welcome <span id="userName"></span> (<span id="userMail"></span>)
 </div>
-
-<script>
+<script src="auth.js"></script>
+<scriptx hidden>
     // see: https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow
     // see: (CORS server side) https://gist.github.com/bretmcg/edf0e80a1c600de6c2d40c973de55fc3
     // see: https://developers.google.com/identity/openid-connect/openid-connect
@@ -99,6 +105,6 @@
             })
     }
 
-</script>
+</scriptx>
 </body>
 </html>

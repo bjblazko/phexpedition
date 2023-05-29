@@ -14,7 +14,8 @@ class HttpResponseFilter : ContainerResponseFilter {
         responseContext!!.headers.add("X-Frame-Options", "SAMEORIGIN")
         responseContext.headers.add("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
         responseContext.headers.add("X-Content-Type-Options", "nosniff")
-        responseContext.headers.add("Content-Security-Policy", "default-src https: 'unsafe-inline'")
+        responseContext.headers.add("Content-Security-Policy", "default-src 'self'")
+        responseContext.headers.add("X-XSS-Protection", "1; mode=block")
     }
 
 }
