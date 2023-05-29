@@ -173,8 +173,8 @@ jobs:
             --region ${{ vars.GOOGLE_REGION }} \
             --allow-unauthenticated \
             --service-account appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
-            --set-env-vars AUTH_REDIRECT_URI=${{ vars.SERVICE_URL }} \
-            --set-secrets AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest
+            --set-env-vars 'AUTH_REDIRECT_URI=${{ vars.SERVICE_URL }}' \
+            --set-secrets 'AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest,AUTH_CLIENT_SECRET=AUTH_CLIENT_SECRET:latest'
 
 
   #
@@ -208,5 +208,5 @@ jobs:
             --region ${{ vars.GOOGLE_REGION }} \
             --allow-unauthenticated \
             --service-account appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
-            --set-env-vars AUTH_REDIRECT_URI=${{ vars.SERVICE_URL }} \
-            --set-secrets AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest
+            --set-env-vars 'AUTH_REDIRECT_URI=${{ vars.SERVICE_URL }}' \
+            --set-secrets 'AUTH_CLIENT_ID=AUTH_CLIENT_ID:latest,AUTH_CLIENT_SECRET=AUTH_CLIENT_SECRET:latest'
