@@ -7,6 +7,7 @@ import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.Context
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.SecurityContext
+import net.phexpedition.user.userFromSecurityContext
 import java.util.*
 
 
@@ -20,7 +21,7 @@ class Api() {
     @Produces(MediaType.APPLICATION_JSON)
     fun api(@Context ctx: SecurityContext): Person {
         val user = userFromSecurityContext(ctx)
-        println("User: $user")
+        println("User: ${user.displayName}")
         return Person(jwt = ctx.userPrincipal.name)
     }
 }
