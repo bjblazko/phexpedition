@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 @ApplicationScoped
 class UserRepository() {
 
-    @WithSpan
+    @WithSpan(value = "firestorelookup")
     fun findUserByEmail(email: String): User {
         val firestore = FirestoreOptions.getDefaultInstance().getService()
         val collection = firestore.collection("user")

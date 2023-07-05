@@ -2,6 +2,7 @@ package net.phexpedition.user
 
 import io.opentelemetry.instrumentation.annotations.WithSpan
 import jakarta.enterprise.context.RequestScoped
+import jakarta.inject.Named
 import jakarta.ws.rs.GET
 import jakarta.ws.rs.Path
 import jakarta.ws.rs.Produces
@@ -11,6 +12,7 @@ import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.core.SecurityContext
 
 @Path("/api/user")
+@Named("user-api")
 @RequestScoped
 @Produces(MediaType.APPLICATION_JSON)
 class UserApi(private val userRepository: UserRepository) {
