@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.SecurityContext
 @Path("/api/user")
 @RequestScoped
 @Produces(MediaType.APPLICATION_JSON)
-class UserApi {
+class UserApi(val userRepository: UserRepository) {
 
     @Path("_me")
     @GET
@@ -20,7 +20,8 @@ class UserApi {
         println("---> getSelf")
         val user = userFromSecurityContext(ctx)
         println("---> user $user")
-        val ube = findByEMail("foo@example.com")//user.email)
+        //val ube = findByEMail("foo@example.com")//user.email)
+        val ube = userRepository.findUserByEmail("foo@example.com")
         println("---> ube $ube")
         return Response.ok(ube).build()
     }
