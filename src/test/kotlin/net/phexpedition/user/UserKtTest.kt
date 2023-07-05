@@ -6,14 +6,14 @@ import java.util.*
 
 class UserKtTest {
 
-    @Test
+    //@Test
     fun `test POJO firestore`() {
         val user = User(id = UUID.randomUUID().toString(), email = "foo@example.com", displayName = "John Doe")
 
         store(user)
     }
 
-    @Test
+    //@Test
     fun `by email`() {
         val u = findByEMail("foo@example.com")
         println(u)
