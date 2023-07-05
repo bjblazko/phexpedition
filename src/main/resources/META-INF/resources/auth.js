@@ -29,8 +29,8 @@ if (accessToken) {
     document.getElementById('userMail').innerText = jwtPayload.email
 
     //console.log(idToken)
-    api(idToken)
-    apiUser(idToken)
+    //api(idToken)
+    //apiUser(idToken)
 
 } else {
     document.getElementById('loginButton').addEventListener('click', function () {
@@ -57,8 +57,8 @@ function decodeJwtPayload(jwt) {
     const decodedJwtPayload = JSON.parse(atob(jwtPayload.replace(/-/g, "+").replace(/_/g, "/")));
 
     // Log the decoded JWT header and payload to the console
-    console.log("Decoded JWT Payload:", decodedJwtHeader);
-    console.log("Decoded JWT Payload:", decodedJwtPayload);
+    //console.log("Decoded JWT Payload:", decodedJwtHeader);
+    //console.log("Decoded JWT Payload:", decodedJwtPayload);
     return decodedJwtPayload
 }
 
@@ -79,7 +79,7 @@ function api(idToken) {
         })
 }
 
-function apiUser(idToken) {
+function apiUser() {
     let apiUrl = `${config.baseUrl}/api/user/_me`
     fetch(apiUrl, {
         method: 'GET',

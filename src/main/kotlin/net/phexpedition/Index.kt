@@ -8,6 +8,7 @@ import jakarta.ws.rs.Path
 import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType
 import org.eclipse.microprofile.config.inject.ConfigProperty
+import java.util.UUID
 
 @Path("/")
 class Index(
@@ -34,6 +35,7 @@ class Index(
             .data("baseUrl", baseUrl)
             .data("authClientId", clientId)
             .data("authAuthority", authority)
+            .data("nonce", nonce)
     }
 
 }
