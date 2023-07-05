@@ -5,21 +5,19 @@
   <groupId>net.phexpedition</groupId>
   <artifactId>phexpedition-app</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-
   <properties>
     <compiler-plugin.version>3.11.0</compiler-plugin.version>
     <kotlin.version>1.8.10</kotlin.version>
     <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <quarkus.package.type>uber-jar</quarkus.package.type>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.version>3.1.2.Final</quarkus.platform.version>
-    <quarkus.package.type>uber-jar</quarkus.package.type>
     <skipITs>true</skipITs>
     <surefire-plugin.version>3.0.0</surefire-plugin.version>
   </properties>
-
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -38,7 +36,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
   <dependencies>
     <dependency>
       <groupId>io.quarkiverse.googlecloudservices</groupId>
@@ -80,12 +77,19 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy</artifactId>
     </dependency>
-
     <dependency>
       <groupId>io.quarkiverse.googlecloudservices</groupId>
       <artifactId>quarkus-google-cloud-firestore</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-opentelemetry</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkiverse.opentelemetry.exporter</groupId>
+      <artifactId>quarkus-opentelemetry-exporter-gcp</artifactId>
+      <version>2.0.0.Final</version>
+    </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>
@@ -106,12 +110,10 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
   <build>
     <sourceDirectory>src/main/kotlin</sourceDirectory>
     <testSourceDirectory>src/test/kotlin</testSourceDirectory>
     <finalName>phexpedition-app</finalName>
-
     <pluginManagement>
       <plugins>
         <plugin>
@@ -126,7 +128,6 @@
         </plugin>
       </plugins>
     </pluginManagement>
-
     <plugins>
       <plugin>
         <groupId>${quarkus.platform.group-id}</groupId>
@@ -221,19 +222,10 @@
       </plugin>
     </plugins>
   </build>
-
   <profiles>
-
     <profile>
       <id>coverage</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <properties>
-        <sonar.organization>bjblazko</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.projectKey>bjblazko_phexpedition</sonar.projectKey>
-      </properties>
+      <activation />
       <build>
         <plugins>
           <plugin>
@@ -256,8 +248,12 @@
           </plugin>
         </plugins>
       </build>
+      <properties>
+        <sonar.projectKey>bjblazko_phexpedition</sonar.projectKey>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.organization>bjblazko</sonar.organization>
+      </properties>
     </profile>
-
     <profile>
       <id>native</id>
       <activation>
@@ -271,5 +267,4 @@
       </properties>
     </profile>
   </profiles>
-
 </project>

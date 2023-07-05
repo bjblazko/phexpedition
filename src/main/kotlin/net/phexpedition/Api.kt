@@ -24,4 +24,8 @@ class Api() {
         println("User: ${user.displayName}")
         return Person(jwt = ctx.userPrincipal.name)
     }
+
+    fun fromRepo() {
+
+    }
 }

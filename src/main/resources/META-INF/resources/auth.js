@@ -30,7 +30,7 @@ if (accessToken) {
 
     //console.log(idToken)
     api(idToken)
-
+    apiUser(idToken)
 
 } else {
     document.getElementById('loginButton').addEventListener('click', function () {
@@ -77,4 +77,22 @@ function api(idToken) {
             console.log(data)
             console.log(`Name: ${data.jwt}`)
         })
+}
+
+function apiUser(idToken) {
+    let apiUrl = `${config.baseUrl}/api/user/_me`
+    fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${idToken}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    }).then((response) => response.json())
+        .then((user) => {
+            console.log(user)
+            console.log(`Name: ${user.displayName}`)
+            alert(`User: ${user.displayName}\nMail: ${user.email}`)
+        })
+
 }
