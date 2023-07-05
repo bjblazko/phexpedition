@@ -1,5 +1,6 @@
 package net.phexpedition.user
 
+import io.opentelemetry.instrumentation.annotations.WithSpan
 import jakarta.enterprise.context.RequestScoped
 import jakarta.ws.rs.GET
 import jakarta.ws.rs.Path
@@ -12,10 +13,11 @@ import jakarta.ws.rs.core.SecurityContext
 @Path("/api/user")
 @RequestScoped
 @Produces(MediaType.APPLICATION_JSON)
-class UserApi(val userRepository: UserRepository) {
+class UserApi(private val userRepository: UserRepository) {
 
     @Path("_me")
     @GET
+    @WithSpan
     fun getSelf(@Context ctx: SecurityContext): Response {
         println("---> getSelf")
         val user = userFromSecurityContext(ctx)
