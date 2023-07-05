@@ -31,6 +31,8 @@ if (accessToken) {
     //console.log(idToken)
     //api(idToken)
     //apiUser(idToken)
+    document.getElementById("userInfoButton").style.visibility = "visible";
+    document.getElementById("userInfoButton").addEventListener("click", apiUser);
 
 } else {
     document.getElementById('loginButton').addEventListener('click', function () {

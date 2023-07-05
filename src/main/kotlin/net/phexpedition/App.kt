@@ -6,7 +6,7 @@ import jakarta.ws.rs.container.ContainerResponseFilter
 import jakarta.ws.rs.ext.Provider
 import java.util.UUID
 
-public val nonce = "nonce-${UUID.randomUUID().toString()}"
+public val nonce = "${UUID.randomUUID().toString()}"
 
 class App {
 }
@@ -17,7 +17,7 @@ class HttpResponseFilter : ContainerResponseFilter {
         responseContext!!.headers.add("X-Frame-Options", "SAMEORIGIN")
         responseContext.headers.add("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
         responseContext.headers.add("X-Content-Type-Options", "nosniff")
-        responseContext.headers.add("Content-Security-Policy", "script-src '${nonce}' 'strict-dynamic';")
+        responseContext.headers.add("Content-Security-Policy", "script-src 'nonce-${nonce}';")
         responseContext.headers.add("X-XSS-Protection", "1; mode=block")
     }
 
