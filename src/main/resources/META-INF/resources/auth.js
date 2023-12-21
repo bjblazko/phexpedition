@@ -64,22 +64,6 @@ function decodeJwtPayload(jwt) {
     return decodedJwtPayload
 }
 
-function api(idToken) {
-    let apiUrl = `${config.baseUrl}/api2`//"https://api-yr4f3nxarq-ew.a.run.app"
-
-    fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${idToken}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    }).then((response) => response.json())
-        .then((data) => {
-            console.log(data)
-            console.log(`Name: ${data.jwt}`)
-        })
-}
 
 function apiUser() {
     let apiUrl = `${config.baseUrl}/api/user/_me`
