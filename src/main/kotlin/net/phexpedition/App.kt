@@ -4,10 +4,13 @@ import jakarta.ws.rs.container.ContainerRequestContext
 import jakarta.ws.rs.container.ContainerResponseContext
 import jakarta.ws.rs.container.ContainerResponseFilter
 import jakarta.ws.rs.ext.Provider
-import java.util.UUID
+import java.util.*
 
-public val nonce = "${UUID.randomUUID().toString()}"
+val nonce = UUID.randomUUID().toString()
 
+/**
+ * Entry points to this application can be found in according `~Api` classes in according packages.
+ */
 class App {
 }
 

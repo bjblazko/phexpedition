@@ -33,6 +33,9 @@ if (accessToken) {
     //apiUser(idToken)
     document.getElementById("userInfoButton").style.visibility = "visible";
     document.getElementById("userInfoButton").addEventListener("click", apiUser);
+    document.getElementById("userInfoButton2").style.visibility = "visible";
+    document.getElementById("userInfoButton2").addEventListener("click", apiUserByEmail);
+
 
 } else {
     document.getElementById('loginButton').addEventListener('click', function () {
@@ -80,5 +83,22 @@ function apiUser() {
             console.log(`Name: ${user.displayName}`)
             alert(`User: ${user.displayName}\nMail: ${user.email}`)
         })
+}
 
+function apiUserByEmail() {
+    let encodedEmail = encodeURIComponent("foo@example.com")
+    let apiUrl = `${config.baseUrl}/api/user/email/${encodedEmail}`
+    fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${idToken}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    }).then((response) => response.json())
+        .then((user) => {
+            console.log(user)
+            console.log(`Name: ${user.displayName}`)
+            alert(`User: ${user.displayName}\nMail: ${user.email}`)
+        })
 }
