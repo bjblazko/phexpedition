@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="EN" en>
+<html lang="EN">
 <head>
     <title>phexpedition.net</title>
     <meta charset="utf-8"/>
@@ -13,15 +13,34 @@
     <auth-redirect-uri>{authRedirectUri}</auth-redirect-uri>
     <base-url>{baseUrl}</base-url>
 </div>
-<h1>phexpedition.net</h1>
-<p>Nothing to see here! Move along, move along...</p>
-<button id="loginButton">Login</button>
-<button id="userInfoButton" nonce="{nonce}" style="visibility: hidden">Userinfo</button>
-<button id="userInfoButton2" nonce="{nonce}" style="visibility: hidden">User Info for foo@example.com</button>
-<div id="message"></div>
-<div id="userInfo">
-    Welcome <span id="userName"></span> (<span id="userMail"></span>)
-</div>
+
+<header>
+    <nav>
+        <div class="logo"><a href="/">Phexpedition</a></div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Galleries</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </nav>
+    <div class="userProfile">
+        <button id="loginButton">Login</button>
+        <div id="userInfo" style="visibility: hidden">
+            <span id="userMail"></span>
+        </div>
+    </div>
+</header>
+
+<main>
+    <h1>Hey there!</h1>
+    <p>Nothing to see here! Move along, move along...</p>
+
+    <button id="userInfoButton" nonce="{nonce}" style="visibility: hidden">Userinfo</button>
+    <button id="userInfoButton2" nonce="{nonce}" style="visibility: hidden">User Info for foo@example.com</button>
+    <div id="message"></div>
+
+</main>
+
 <script src="auth.js" nonce="{nonce}"></script>
 </body>
 </html>

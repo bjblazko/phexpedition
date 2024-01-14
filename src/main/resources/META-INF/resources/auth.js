@@ -25,12 +25,12 @@ if (accessToken) {
 
     let jwtPayload = decodeJwtPayload(idToken)
 
-    document.getElementById('userName').innerText = jwtPayload.name
     document.getElementById('userMail').innerText = jwtPayload.email
 
     //console.log(idToken)
     //api(idToken)
     //apiUser(idToken)
+    document.getElementById("userInfo").style.visibility = "visible"
     document.getElementById("userInfoButton").style.visibility = "visible";
     document.getElementById("userInfoButton").addEventListener("click", apiUser);
     document.getElementById("userInfoButton2").style.visibility = "visible";
