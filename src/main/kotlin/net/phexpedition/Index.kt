@@ -7,8 +7,9 @@ import jakarta.ws.rs.GET
 import jakarta.ws.rs.Path
 import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType
+import net.phexpedition.user.Permission
+import net.phexpedition.user.Permissions
 import org.eclipse.microprofile.config.inject.ConfigProperty
-import java.util.UUID
 
 @Path("/")
 class Index(
@@ -29,6 +30,7 @@ class Index(
 
     @GET
     @Produces(MediaType.TEXT_HTML)
+    @Permissions(Permission.PUBLIC)
     fun index(): TemplateInstance {
         return template
             .data("authRedirectUri", baseUrl)

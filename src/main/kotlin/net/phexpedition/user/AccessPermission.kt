@@ -15,17 +15,53 @@ import jakarta.ws.rs.ext.Provider
 import org.jboss.logmanager.Logger
 import java.lang.reflect.Method
 
+
+/**
+ * This enum is used to control access to web resources, for example in conjunction
+ * with the [Permissions] annotation.
+ */
 enum class Permission {
+
+    /**
+     * Public permission means that the resource is not protected at
+     * all and needs no authentication and no authorization.
+     */
+    PUBLIC,
+
+    /**
+     * User permission means that the user (person or technical account)
+     * needs to be authenticated for that resource.
+     * Further authorization checks are out of scope for this permission
+     * and are subject to the implementation of a resource.
+     */
     USER,
+
+    /**
+     * The resource can only be accessed for users with administrative
+     * privileges.
+     * Further authorization checks are out of scope for this permission
+     * and are subject to the implementation of a resource.
+     */
     ADMIN_USER
 }
 
+
+/**
+ * Use this function in conjunction with [Permission] to control access
+ * to web resources. A request filter such as [HttpAccessPermissionValidator]
+ * can then check if a resource with given URL is protected and in what way.
+ */
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class Permissions(vararg val value: Permission)
 
 
 /**
+ * This request filter checks HTTP endpoint functions for access restrictions. For example, if
+ * a HTTP function is annotated with [Permissions[Permission]], this filter checks if the
+ * principal that invoked the request fulfills the required permissions by checking
+ * authentication and in parts authorization.
+ *
  * This is what the user principal might look like with our Google based authentication:
  * ```
  * {
@@ -34,7 +70,7 @@ annotation class Permissions(vararg val value: Permission)
  *   expiration=1703256821,
  *   notBefore=1703252921,
  *   issuedAt=1703253221,
- *   issuer='https: //accounts.google.com',
+ *   issuer='https://accounts.google.com',
  *   audience=[
  *     foobarbaz.apps.googleusercontent.com
  *   ],
@@ -87,7 +123,8 @@ class HttpAccessPermissionValidator(@Context val resourceInfo: ResourceInfo?) : 
 
 
     private fun isPermissionRequired(caller: Method): Boolean {
-        return caller.getAnnotation(Permissions::class.java) != null
+        val permissionAnnotation = caller.getAnnotation(Permissions::class.java)
+        return permissionAnnotation == null || permissionAnnotation.value.contains(Permission.PUBLIC)
     }
 
 
