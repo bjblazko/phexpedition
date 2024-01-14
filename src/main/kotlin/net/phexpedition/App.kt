@@ -5,7 +5,7 @@ import jakarta.ws.rs.container.ContainerResponseContext
 import jakarta.ws.rs.container.ContainerResponseFilter
 import jakarta.ws.rs.ext.Provider
 import java.util.*
-import net.phexpedition.user.HttpAccessPermissionValidator
+import net.phexpedition.auth.HttpAccessPermissionValidator
 
 val nonce = UUID.randomUUID().toString()
 

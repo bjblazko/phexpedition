@@ -11,6 +11,8 @@ import jakarta.ws.rs.core.Context
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.core.SecurityContext
+import net.phexpedition.auth.Permission
+import net.phexpedition.auth.Permissions
 import org.eclipse.microprofile.jwt.JsonWebToken
 import org.jboss.logmanager.Logger
 

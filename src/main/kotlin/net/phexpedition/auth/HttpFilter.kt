@@ -1,4 +1,4 @@
-package net.phexpedition.user
+package net.phexpedition.auth
 
 
 import io.smallrye.jwt.auth.principal.DefaultJWTCallerPrincipal
@@ -12,48 +12,10 @@ import jakarta.ws.rs.core.Context
 import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.core.SecurityContext
 import jakarta.ws.rs.ext.Provider
+import net.phexpedition.user.User
+import net.phexpedition.user.UserRepository
 import org.jboss.logmanager.Logger
 import java.lang.reflect.Method
-
-
-/**
- * This enum is used to control access to web resources, for example in conjunction
- * with the [Permissions] annotation.
- */
-enum class Permission {
-
-    /**
-     * Public permission means that the resource is not protected at
-     * all and needs no authentication and no authorization.
-     */
-    PUBLIC,
-
-    /**
-     * User permission means that the user (person or technical account)
-     * needs to be authenticated for that resource.
-     * Further authorization checks are out of scope for this permission
-     * and are subject to the implementation of a resource.
-     */
-    USER,
-
-    /**
-     * The resource can only be accessed for users with administrative
-     * privileges.
-     * Further authorization checks are out of scope for this permission
-     * and are subject to the implementation of a resource.
-     */
-    ADMIN_USER
-}
-
-
-/**
- * Use this function in conjunction with [Permission] to control access
- * to web resources. A request filter such as [HttpAccessPermissionValidator]
- * can then check if a resource with given URL is protected and in what way.
- */
-@Target(AnnotationTarget.FUNCTION)
-@Retention(AnnotationRetention.RUNTIME)
-annotation class Permissions(vararg val value: Permission)
 
 
 /**
@@ -122,18 +84,22 @@ class HttpAccessPermissionValidator(@Context val resourceInfo: ResourceInfo?) : 
     }
 
 
+    /**
+     * Returns true if these conditions are met: the requested resource is NOT annotated with [Permissions]
+     * or there is such annotation but it yields [Permission.PUBLIC].
+     */
     private fun isPermissionRequired(caller: Method): Boolean {
         val permissionAnnotation = caller.getAnnotation(Permissions::class.java)
-        return permissionAnnotation == null || permissionAnnotation.value.contains(Permission.PUBLIC)
+        return (permissionAnnotation != null && Permission.PUBLIC !in permissionAnnotation.value.toList())
     }
 
 
     private fun getRequiredPermissions(caller: Method): List<Permission> {
         val annotation = caller.getAnnotation(Permissions::class.java)
-        if (annotation is Permissions) {
-            return annotation.value.toList()
+        return if (annotation is Permissions) {
+            annotation.value.toList()
         } else {
-            return listOf()
+            listOf()
         }
     }
 

@@ -7,8 +7,8 @@ import jakarta.ws.rs.GET
 import jakarta.ws.rs.Path
 import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType
-import net.phexpedition.user.Permission
-import net.phexpedition.user.Permissions
+import net.phexpedition.auth.Permission
+import net.phexpedition.auth.Permissions
 import org.eclipse.microprofile.config.inject.ConfigProperty
 
 @Path("/")
