@@ -2,6 +2,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
+    color: whitesmoke;
+    background-color: #3f3f3f;
 }
 
 header {
@@ -60,4 +62,15 @@ header .userProfile {
 
 main {
     padding: 20px;
+}
+
+footer {
+    font-size: smaller;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 0;
 }
