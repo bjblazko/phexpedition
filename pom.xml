@@ -6,6 +6,10 @@
   <artifactId>phexpedition-app</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <properties>
+    <!-- These come in via -D parameters frm the build pipeline -->
+    <buildNumber>${githubBuildNumber}</buildNumber>
+    <commitHash>${githubCommitHash}</commitHash>
+
     <compiler-plugin.version>3.11.0</compiler-plugin.version>
     <kotlin.version>1.8.10</kotlin.version>
     <maven.compiler.release>17</maven.compiler.release>
@@ -178,7 +182,8 @@
           </execution>
         </executions>
       </plugin>
-      <!--plugin>
+
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.3.0</version>
@@ -195,22 +200,23 @@
 
         <configuration>
           <encoding>UTF-8</encoding>
-          <delimiters>
+          <!--delimiters>
             <delimiter>@</delimiter>
-          </delimiters>
-          <useDefaultDelimiters>false</useDefaultDelimiters>
+          </delimiters-->
+          <useDefaultDelimiters>true</useDefaultDelimiters>
           <resources>
             <resource>
               <directory>src/main/resources</directory>
               <filtering>true</filtering>
-              <includes>
+              <!--includes>
                 <include>**/*.html</include>
-              </includes>
+              </includes-->
 
             </resource>
           </resources>
         </configuration>
-      </plugin-->
+      </plugin>
+
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-plugin</artifactId>
