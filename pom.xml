@@ -7,8 +7,8 @@
   <version>1.0.0-SNAPSHOT</version>
   <properties>
     <!-- These come in via -D parameters frm the build pipeline -->
-    <buildNumber>${githubBuildNumber}</buildNumber>
-    <commitHash>${githubCommitHash}</commitHash>
+    <buildNumber>${env.GITHUB_RUN_NUMBER}</buildNumber>
+    <commitHash>${env.GITHUB_SHA}</commitHash>
 
     <compiler-plugin.version>3.11.0</compiler-plugin.version>
     <kotlin.version>1.8.10</kotlin.version>
