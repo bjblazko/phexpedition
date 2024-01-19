@@ -7,22 +7,22 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-<div hidden>
-    <auth-client-id>{authClientId}</auth-client-id>
-    <auth-authority>{authAuthority}</auth-authority>
-    <auth-redirect-uri>{authRedirectUri}</auth-redirect-uri>
-    <base-url>{baseUrl}</base-url>
-</div>
 
 <header>
-    <nav>
-        <div class="logo"><a href="/">Phexpedition</a></div>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Galleries</a></li>
-            <li><a href="#">About</a></li>
-        </ul>
-    </nav>
+
+    <div class="logo-box">
+        <img class="logo" src="logo-128.png" height="64" width="64">
+        Phexpedition
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Galleries</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </nav>
+    </div>
+
+
     <div class="userProfile">
         <button id="loginButton">Login</button>
         <div id="userInfo" style="visibility: hidden">
@@ -45,6 +45,12 @@
     (C) 2023-2024 by Hüpattl! Software (Build: @build.number@ at @build.datetime@)
 </footer>
 
+<div hidden>
+    <auth-client-id>{authClientId}</auth-client-id>
+    <auth-authority>{authAuthority}</auth-authority>
+    <auth-redirect-uri>{authRedirectUri}</auth-redirect-uri>
+    <base-url>{baseUrl}</base-url>
+</div>
 <script src="auth.js" nonce="{nonce}"></script>
 </body>
 </html>
