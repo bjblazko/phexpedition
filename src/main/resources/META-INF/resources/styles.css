@@ -25,6 +25,10 @@ footer::after {
     background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
 }
 
+.buildInfo {
+    font-size: small;
+}
+
 nav {
     margin-left: 12px;
 }
