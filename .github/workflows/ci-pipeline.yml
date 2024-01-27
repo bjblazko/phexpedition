@@ -101,7 +101,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: bjblazko/phexpedition-app:${{ GITHUB_SHA }}
+          tags: bjblazko/phexpedition-app:${{ vars.GITHUB_SHA }}
 
 
   #
@@ -134,7 +134,7 @@ jobs:
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy ${{ vars.SERVICE_NAME }} \
-            --image docker.io/bjblazko/phexpedition-app:${{ GITHUB_SHA }} \
+            --image docker.io/bjblazko/phexpedition-app:${{ vars.GITHUB_SHA }} \
             --region ${{ vars.GOOGLE_REGION }} \
             --allow-unauthenticated \
             --service-account appuser@${{ vars.GOOGLE_PROJECT }}.iam.gserviceaccount.com \
